@@ -151,7 +151,7 @@ class EmployeesQueries:
         with utils.SqliteDB(DB_PATH) as connection:
 
             # validate for query
-            if self.validate_request_params(**employees):
+            if self.validate_query(**employees):
 
                 # get the cursor to execute query
                 with utils.DBCursor(connection) as cursor:
