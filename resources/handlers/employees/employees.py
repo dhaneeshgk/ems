@@ -9,9 +9,12 @@ fecthing
 
 from flask_restful import Resource
 from flask_restful import request 
+from werkzeug.utils import secure_filename
 import json
+import os
 
 from db.schemas.employees.queries import queries
+from utils.processors import csv_to_json
 
 class Employees(Resource):
     
@@ -44,11 +47,27 @@ class Employees(Resource):
                     - count of success, failure and total employee records created
         '''
 
-        ## fetch the request body
+
+
+        # fetch the request body
         json_data = request.get_json()
 
+        # if request body is not provided check for the csv file
+        # to create employee records
+        if not json_data:
+            file_object = request.files.get('employees_records', None)
+            
+            # if neither is provided send no body content provided
+            if file_object == None:
+                return {"message":"No body content provided"}, 400
+            else:
+                file_path = '/'.join(['.tmp', secure_filename(file_object.filename)])
+                file_object.save(file_path)
+                json_data = {"employees_info" : csv_to_json(file_path=file_path)}
+                os.unlink(file_path)
+
         if json_data:
-            if "employees_info" in request.get_json():
+            if "employees_info" in json_data:
 
                 # query for the creation of employees record
                 status = queries.EmployeesQueries().create_employees(*json_data["employees_info"])
