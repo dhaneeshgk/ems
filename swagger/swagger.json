@@ -148,8 +148,8 @@
           "summary": "To create employee records",
           "description": "",
           "operationId": "addEmployees",
-          "consumes": [ "application/json", "application/xml"],
-          "produces": [ "application/json", "application/xml"],
+          "consumes": [ "application/json", "application/xml","multipart/form-data"],
+          "produces": [ "application/json", "application/xml", "multipart/form-data"],
           "parameters":[
             {
               "in":"body",
@@ -173,6 +173,13 @@
                   }
                 }
               }
+            },
+            {
+              "name": "employees_records",
+              "in": "formData",
+              "description": "csv file to upload",
+              "required": false,
+              "type": "file"
             }
           ],
           "responses": {
@@ -190,7 +197,7 @@
                           "xml": {
                             "name": "employees"
                           },
-                          "$ref": "#/definitions/EmployeeUpdate"      
+                          "$ref": "#/definitions/EmployeeRecordSuccessCreate"      
                         }
                       },
                       "fail":{
@@ -199,7 +206,7 @@
                           "xml": {
                             "name": "employees"
                           },
-                          "$ref": "#/definitions/EmployeeUpdate"      
+                          "$ref": "#/definitions/EmployeeRecordFailCreate"      
                         }
                       }
                     }
@@ -261,6 +268,51 @@
             }
           ],
           "responses": {
+            "201": {
+              "description": "successful operation",
+              "schema": {
+                "type": "object",
+                "properties":{
+                  "status":{
+                    "type": "object",
+                    "properties":{
+                      "success":{
+                        "type":"array",
+                        "items":{
+                          "xml": {
+                            "name": "employees"
+                          },
+                          "$ref": "#/definitions/EmployeeRecordSuccessUpdate"      
+                        }
+                      },
+                      "fail":{
+                        "type":"array",
+                        "items":{
+                          "xml": {
+                            "name": "employees"
+                          },
+                          "$ref": "#/definitions/EmployeeRecordFailUpdate"      
+                        }
+                      }
+                    }
+                  },
+                  "metadata":{
+                    "type":"object",
+                    "properties":{
+                      "success":{
+                        "type":"integer"
+                      },
+                      "fail":{
+                        "type":"integer"
+                      },
+                      "total":{
+                        "type":"integer"
+                      }
+                    }
+                  }
+                }
+              }
+            },
             "405": {
               "description": "Invalid input"
             }
@@ -443,6 +495,60 @@
         },
         "xml": {
           "name": "EmployeeUpdate"
+        }
+      },
+      "EmployeeRecordSuccessUpdate": {
+        "type":"object",
+        "properties":{
+          "record":{
+            "type":"object",
+            "$ref": "#/definitions/EmployeeUpdate"
+          }
+        },
+        "xml": {
+          "name": "EmployeeRecordSuccessUpdate"
+        }
+      },
+      "EmployeeRecordFailUpdate": {
+        "type":"object",
+        "properties":{
+          "record":{
+            "type":"object",
+            "$ref": "#/definitions/EmployeeUpdate"
+          },
+          "error":{
+            "type":"string"
+          }
+        },
+        "xml": {
+          "name": "EmployeeRecordFailUpdate"
+        }
+      },
+      "EmployeeRecordSuccessCreate": {
+        "type":"object",
+        "properties":{
+          "record":{
+            "type":"object",
+            "$ref": "#/definitions/EmployeeCreate"
+          }
+        },
+        "xml": {
+          "name": "EmployeeRecordSuccessCreate"
+        }
+      },
+      "EmployeeRecordFailCreate": {
+        "type":"object",
+        "properties":{
+          "record":{
+            "type":"object",
+            "$ref": "#/definitions/EmployeeCreate"
+          },
+          "error":{
+            "type":"string"
+          }
+        },
+        "xml": {
+          "name": "EmployeeRecordFailCreate"
         }
       }
     },
