@@ -111,7 +111,8 @@
             "200": {
               "description": "successful operation",
               "schema": {
-                "$ref": "#/definitions/ApiResponse"
+                "type": "object",
+                "$ref": "#/definitions/Employee"
               }
             }
           },
@@ -127,25 +128,6 @@
       }
     },
     "definitions": {
-      "ApiResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "object",
-            "properties":{
-              "employees":{
-                "type":"object",
-                "properties":{
-                  "$ref": "#definitions#Employee"
-                }
-              },
-              "total_no_employees":{
-                "type":"integer"
-              }
-            }
-          }
-        }
-      },
       "Employee": {
         "type": "object",
         "properties": {
@@ -183,7 +165,7 @@
           }
         },
         "xml": {
-          "name": "User"
+          "name": "Employee"
         }
       }
     },

@@ -1,2 +1,4 @@
+# pyhton3 environment
 flask-restful
 flask-swagger-ui
+# create logs directory under root of ems repo

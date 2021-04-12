@@ -32,10 +32,13 @@ class Columns:
 class Where:
     def __init__(self, filter_operator=None, **column_values,):
         self.column_values = column_values
-        if filter_operator and filter_operator.lower() in ['or', 'and']:
-            self.filter_operator = filter_operator.upper()  
+        if filter_operator:
+            if filter_operator.lower() in ['or', 'and']:
+                self.filter_operator = filter_operator.upper()  
+            else:
+                raise Exception("Invalid filter operator")
         else:
-            raise Exception("Invalid filter operator")
+            self.filter_operator = 'AND'
     
     def __str__(self):
         where = "WHERE "

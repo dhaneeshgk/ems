@@ -30,7 +30,7 @@ class Employees(Resource):
             if request.args else queries.EmployeesQueries().get_employees()
         
         if status:
-            return {"data":{"employees":employees, "total_no_employees": len(employees)}}, 200
+            return {"employees":employees, "total_no_employees": len(employees)}, 200
         else:
             return {"error": employees}, 404
 
