@@ -145,7 +145,7 @@
           "tags": [
             "employees"
           ],
-          "summary": "To create employee records",
+          "summary": "To create employees records",
           "description": "",
           "operationId": "addEmployees",
           "consumes": [ "application/json", "application/xml","multipart/form-data"],
@@ -246,7 +246,7 @@
             {
               "in":"body",
               "name":"body",
-              "description": "Array of employee's records that needs to be updapted in the EMS",
+              "description": "Array of employees records that needs to be updapted in the EMS",
               "type":"object",
               "required": [
                 "employees_info"
@@ -404,7 +404,7 @@
             }
           ],
           "responses": {
-            "204": {
+            "200": {
               "description": "successful operation",
               "schema": {
                 "type": "object",
